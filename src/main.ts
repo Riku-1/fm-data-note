@@ -1,6 +1,7 @@
 import path from 'path';
 import { searchDevtools } from 'electron-search-devtools';
 import { BrowserWindow, app, ipcMain, session } from 'electron';
+import {IpcMainEventHandler} from "./ipcMain/IpcMainEventHandler";
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -25,6 +26,9 @@ const createWindow = () => {
   ipcMain.on('update-title', (_e, arg) => {
     mainWindow.setTitle(`Electron React TypeScript: ${arg}`);
   });
+
+  const handler = new IpcMainEventHandler()
+  handler.handleFoo()
 
   if (isDev) {
     searchDevtools('REACT')

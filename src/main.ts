@@ -1,7 +1,9 @@
+import "reflect-metadata";
 import path from 'path';
 import { searchDevtools } from 'electron-search-devtools';
 import { BrowserWindow, app, ipcMain, session } from 'electron';
 import {IpcMainEventHandler} from "./ipcMain/IpcMainEventHandler";
+import { DIContainer } from "./package/inversify.config"
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -27,8 +29,8 @@ const createWindow = () => {
     mainWindow.setTitle(`Electron React TypeScript: ${arg}`);
   });
 
-  const handler = new IpcMainEventHandler()
-  handler.handleFoo()
+  const handler = DIContainer.resolve(IpcMainEventHandler)
+  handler.handleUploadPlayersFile()
 
   if (isDev) {
     searchDevtools('REACT')

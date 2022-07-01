@@ -1,1 +1,1 @@
-export const loadFileEvent = 'loadFileEvent'
+export const loadPlayersFileEvent = 'loadPlayersFileEvent'

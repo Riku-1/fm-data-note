@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import {loadFileEvent} from "./constants/electronEvent";
+import {loadPlayersFileEvent} from "./constants/electronEvent";
 
-contextBridge.exposeInMainWorld('myAPI', {
+contextBridge.exposeInMainWorld('exposedAPI', {
   update: (count: number) => ipcRenderer.send('update-title', count),
-  foo: () => ipcRenderer.invoke(loadFileEvent)
+  loadPlayersFile: () => ipcRenderer.invoke(loadPlayersFileEvent)
 });

@@ -1,10 +1,12 @@
+import {Player} from "../package/domain/model/player/Player";
+
 export interface IElectronAPI {
   update: (count: number) => void
-  foo: () => Promise<string>
+  loadPlayersFile: () => Promise<Player[]>
 }
 
 declare global {
   interface Window {
-    myAPI: IElectronAPI
+    exposedAPI: IElectronAPI
   }
 }

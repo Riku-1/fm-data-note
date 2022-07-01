@@ -1,9 +1,9 @@
 import {Container} from "inversify";
-import {IParseHtmlStringToPlayersUseCase} from "./usecase/IParseHtmlStringToPlayersUseCase";
+import {ILoadPlayersHtmlUseCase} from "./usecase/ILoadPlayersHtmlUseCase";
 import {USECASE_TYPE} from "./usecase/usecase_type";
-import {ParseHtmlStrToPlayersInteractor} from "./domain/application/player/ParseHtmlStrToPlayersInteractor";
+import {LoadPlayersHtmlInteractor} from "./domain/application/player/LoadPlayersHtmlInteractor";
 
 export const DIContainer = new Container()
 
 // UseCase
-DIContainer.bind<IParseHtmlStringToPlayersUseCase>(USECASE_TYPE.ParseHtmlStringToPlayersUseCase).to(ParseHtmlStrToPlayersInteractor)
+DIContainer.bind<ILoadPlayersHtmlUseCase>(USECASE_TYPE.ParseHtmlStringToPlayersUseCase).to(LoadPlayersHtmlInteractor)

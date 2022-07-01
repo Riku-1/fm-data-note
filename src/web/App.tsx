@@ -14,16 +14,17 @@ export const App = () => {
         exposedAPI.update(count);
     }, [count]);
 
-    const testFoo = async (event: MouseEvent<HTMLButtonElement>) => {
+    const parsePlayersHtmlFile = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-
         const players = await window.exposedAPI.loadPlayersFile()
+
+        console.log(players)
         setPlayers(players)
     }
 
     return (
         <div className="container">
-            <button type="button" onClick={testFoo}>Open a File</button>
+            <button type="button" onClick={parsePlayersHtmlFile}>Open a File</button>
 
             <table>
                 <thead>

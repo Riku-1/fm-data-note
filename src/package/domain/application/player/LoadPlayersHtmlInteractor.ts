@@ -28,7 +28,11 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
             tdElms.forEach((tdElm, index) => {
                 playerAttributes[keyNames[index]] = tdElm.textContent
             })
-            playerAttributesList.push(playerAttributes)
+
+            if (playerAttributes[PlayerAttributeKeyNameJA.uID]) {
+                // たまに空のtdがあるのでidが取得できる場合のみ正常とみなしてlistに突っ込む
+                playerAttributesList.push(playerAttributes)
+            }
         })
 
         return playerAttributesList.map(attributes => {

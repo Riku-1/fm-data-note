@@ -1,6 +1,10 @@
 import React, {useState, useEffect, MouseEvent} from 'react';
 import './App.css';
 import {Player} from "../package/domain/model/player/Player";
+import {AgGridReact} from "ag-grid-react";
+
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const {exposedAPI} = window;
 
@@ -18,14 +22,27 @@ export const App = () => {
         event.preventDefault()
         const players = await window.exposedAPI.loadPlayersFile()
 
-        console.log(players)
         setPlayers(players)
     }
+
+    const [columnDefs] = useState([
+        { field: 'id' },
+        { field: 'name' },
+    ])
 
     return (
         <div className="container">
             <button type="button" onClick={parsePlayersHtmlFile}>Open a File</button>
 
+
+            <div className="ag-theme-alpine" style={{height: 400, width: 600}}>
+                <AgGridReact
+                    rowData={players}
+                    columnDefs={columnDefs}>
+                </AgGridReact>
+            </div>
+
+            {/**
             <table>
                 <thead>
                 <tr>
@@ -44,6 +61,7 @@ export const App = () => {
                   })}
                 </tbody>
             </table>
+            */}
             <div>
                 <button onClick={onCountDown}>&#x25BC;</button>
             </div>

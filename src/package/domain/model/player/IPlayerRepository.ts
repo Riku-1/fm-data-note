@@ -1,5 +1,5 @@
 import {Player} from "./Player";
 
 export interface IPlayerRepository {
-    save(player: Player): void
+    save(player: Player): Promise<void>
 }

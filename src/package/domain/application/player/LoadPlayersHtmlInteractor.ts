@@ -37,8 +37,10 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
 
         return playerAttributesList.map(attributes => {
             return {
-                name: attributes[PlayerAttributeKeyNameJA.name],
                 id: attributes[PlayerAttributeKeyNameJA.uID],
+                name: attributes[PlayerAttributeKeyNameJA.name],
+                country: attributes[PlayerAttributeKeyNameJA.country],
+                affiliatedTeam: attributes[PlayerAttributeKeyNameJA.affiliatedTeam],
             }
         })
     }

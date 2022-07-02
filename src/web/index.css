@@ -2,3 +2,26 @@ body {
   margin: 0;
   font-family: sans-serif;
 }
+
+#container {
+  height: 100vh;
+  display: flex;
+}
+
+#left-menu-panel {
+  height: 100vh;
+  width: 300px;
+}
+
+#main-content {
+  border-left-style: solid;
+  border-left-width: thin;
+  border-left-color: black;
+
+  height: 100vh;
+  width: calc(100vw - 300px);
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

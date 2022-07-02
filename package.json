@@ -23,7 +23,9 @@
     "jsdom": "^20.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reflect-metadata": "^0.1.13"
+    "react-router-dom": "^6.3.0",
+    "reflect-metadata": "^0.1.13",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.14",

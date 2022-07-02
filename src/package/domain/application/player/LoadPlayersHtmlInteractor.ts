@@ -1,4 +1,4 @@
-import {ILoadPlayersHtmlUseCase} from "../../../usecase/ILoadPlayersHtmlUseCase";
+import {ILoadPlayersHtmlUseCase} from "../../../usecase/player/ILoadPlayersHtmlUseCase";
 import {Player} from "../../model/player/Player";
 import {injectable} from "inversify";
 import * as fs from "fs";

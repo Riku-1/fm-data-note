@@ -1,7 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import {loadPlayersFileEvent} from "./ipcMain/electronEvent";
+import {loadPlayersFileEvent, savePlayersEvent} from "./ipcMain/electronEvent";
+import {Player} from "./package/domain/model/player/Player";
 
 contextBridge.exposeInMainWorld('exposedAPI', {
-  update: (count: number) => ipcRenderer.send('update-title', count),
-  loadPlayersFile: () => ipcRenderer.invoke(loadPlayersFileEvent)
+  loadPlayersFile: () => ipcRenderer.invoke(loadPlayersFileEvent),
+  savePlayers: (players: Player[]) => ipcRenderer.invoke(savePlayersEvent, players),
 });

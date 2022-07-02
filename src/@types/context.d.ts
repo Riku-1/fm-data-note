@@ -1,8 +1,8 @@
 import {Player} from "../package/domain/model/player/Player";
 
 export interface IElectronAPI {
-  update: (count: number) => void
   loadPlayersFile: () => Promise<Player[]>
+  savePlayers: (players: Player[]) => Promise<void>
 }
 
 declare global {

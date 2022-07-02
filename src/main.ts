@@ -3,7 +3,7 @@ import path from 'path';
 import { searchDevtools } from 'electron-search-devtools';
 import { BrowserWindow, app, ipcMain, session } from 'electron';
 import {IpcMainEventHandler} from "./ipcMain/IpcMainEventHandler";
-import { DIContainer } from "./package/inversify.config"
+import { DIContainer } from "./package/inject_types/diConfig/inversify.config"
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -33,7 +33,7 @@ const createWindow = () => {
   });
 
   const handler = DIContainer.resolve(IpcMainEventHandler)
-  handler.handleUploadPlayersFile()
+  handler.handleAllEvent()
 
   if (isDev) {
     searchDevtools('REACT')

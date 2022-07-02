@@ -1,19 +1,24 @@
 import React, {useState, MouseEvent} from 'react';
 import {Player} from "../../package/domain/model/player/Player";
 import {AgGridReact} from "ag-grid-react";
+import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
 
 export const LoadHtmlFilePage = () => {
     const [players, setPlayers] = useState<Player[]>([])
 
     const parsePlayersHtmlFile = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        const players = await window.exposedAPI.loadPlayersFile()
 
+        const players = await window.exposedAPI.loadPlayersFile()
         setPlayers(players)
+    }
+
+    const savePlayers = async (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+        await window.exposedAPI.savePlayers(players)
     }
 
     const [columnDefs] = useState([
@@ -38,6 +43,8 @@ export const LoadHtmlFilePage = () => {
                         columnDefs={columnDefs}>
                     </AgGridReact>
                 </div>
+
+                <button type="button" onClick={savePlayers}>save players</button>
             </div>
         </div>
     );

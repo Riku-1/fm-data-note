@@ -14,9 +14,9 @@ export class SavePlayersInteractor implements ISavePlayersUseCase {
         this._repository = repository
     }
 
-    handle(players: Player[]): void {
-        players.forEach(player => {
-            this._repository.save(player)
-        })
+    async handle(players: Player[]): Promise<void> {
+        for (const player of players) {
+            await this._repository.save(player)
+        }
     }
 }

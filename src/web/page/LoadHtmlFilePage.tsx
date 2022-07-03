@@ -27,7 +27,7 @@ export const LoadHtmlFilePage = () => {
         { field: 'id' },
         { field: 'name' },
         { field: 'country' },
-        { field: 'affiliatedTeam' },
+        { field: 'club' },
         { field: 'birthDate' },
     ])
 

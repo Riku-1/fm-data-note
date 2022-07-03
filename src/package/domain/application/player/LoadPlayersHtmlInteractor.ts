@@ -49,21 +49,27 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
         return Promise.all(playerAttributesList.map(async (attributes) => {
             //const player = await this._repository.find(attributes[PlayerAttributeKeyNameJA.uID])
             //console.log(player)
+            const attributesHistory = LoadPlayersHtmlInteractor.parseToAttributesHistory(attributes);
 
-            const attributesHistory: PlayerAttributesHistory = {
-                affiliatedTeam: attributes[PlayerAttributeKeyNameJA.affiliatedTeam]
-            }
-
-            const rawbirthDate = attributes[PlayerAttributeKeyNameJA.birthDate]
+            const rawBirthDate = attributes[PlayerAttributeKeyNameJA.birthDate]
 
             return {
                 id: attributes[PlayerAttributeKeyNameJA.uID],
                 name: attributes[PlayerAttributeKeyNameJA.name],
                 country: attributes[PlayerAttributeKeyNameJA.country],
                 attributesHistories: [attributesHistory],
-                birthDate: rawbirthDate ? this.parseToDate(rawbirthDate) : undefined
+                birthDate: rawBirthDate ? this.parseToDate(rawBirthDate) : undefined
             }
         }))
+    }
+
+    private static parseToAttributesHistory(attributes) {
+        const attributesHistory: PlayerAttributesHistory = {
+            club: attributes[PlayerAttributeKeyNameJA.club] ?? null,
+            onLoanFrom: attributes[PlayerAttributeKeyNameJA.onLoanFrom] ?? null,
+            savedAt: new Date(), // TODO
+        }
+        return attributesHistory;
     }
 
     private parseToDate = (dateString: string): Date => {

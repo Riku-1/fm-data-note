@@ -9,12 +9,15 @@ import {ISavePlayersUseCase} from "../../usecase/player/ISavePlayersUseCase";
 import {SavePlayersInteractor} from "../../domain/application/player/SavePlayersInteractor";
 import {IDBContainer, TYPE_DBContainer} from "../../domain/application/IDBContainer";
 import {SqliteContainer} from "../../infrastructure/SqliteContainer";
+import {IGetClubsPlayerUseCase} from "../../usecase/player/IGetClubsPlayerUseCase";
+import {GetClubsPlayerInteractor} from "../../domain/application/player/GetClubsPlayerInteractor";
 
 export const DIContainer = new Container()
 
 // UseCase
 DIContainer.bind<ILoadPlayersHtmlUseCase>(USECASE_TYPE.ParseHtmlStringToPlayersUseCase).to(LoadPlayersHtmlInteractor)
 DIContainer.bind<ISavePlayersUseCase>(USECASE_TYPE.SavePlayersUseCase).to(SavePlayersInteractor)
+DIContainer.bind<IGetClubsPlayerUseCase>(USECASE_TYPE.GetClubsPlayersUseCase).to(GetClubsPlayerInteractor)
 
 // Repository
 DIContainer.bind<IPlayerRepository>(REPOSITORY_TYPES.PlayerRepository).to(PlayerRepository)

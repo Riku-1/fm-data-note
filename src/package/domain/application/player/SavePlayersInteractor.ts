@@ -16,6 +16,16 @@ export class SavePlayersInteractor implements ISavePlayersUseCase {
 
     async handle(players: Player[]): Promise<void> {
         for (const player of players) {
+            const savedPlayer = await this._repository.find(player.id).catch(err => {
+                throw err
+            })
+
+            if (savedPlayer) {
+                // do nothing if player already exists
+                // TODO: update
+                continue
+            }
+
             await this._repository.save(player).catch(err => {
                 throw err
             })

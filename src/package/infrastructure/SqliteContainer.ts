@@ -20,9 +20,10 @@ export class SqliteContainer implements IDBContainer {
             this.db.run('BEGIN;')
             this.db.run(`
                 CREATE TABLE IF NOT EXISTS players (
-                    uid integer,
-                    name VARCHAR(255),
-                    country VARCHAR(10)
+                    uid BIGINT not null,
+                    name VARCHAR(255) not null,
+                    country VARCHAR(10),
+                    birth_date TEXT not null
                 );
             `);
 

@@ -28,6 +28,7 @@ export const LoadHtmlFilePage = () => {
         { field: 'name' },
         { field: 'country' },
         { field: 'affiliatedTeam' },
+        { field: 'birthDate' },
     ])
 
     return (

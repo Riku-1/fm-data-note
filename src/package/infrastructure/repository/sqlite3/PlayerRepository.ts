@@ -16,10 +16,12 @@ export class PlayerRepository implements IPlayerRepository {
         return new Promise((resolve, reject) => {
             dbContainer.db.serialize(() => {
                 dbContainer.db.run(`
-                    INSERT OR IGNORE INTO players (uid, name, country)
-                    VALUES (${player.id}, "${player.name}", "${player.country}")
+                    INSERT INTO players (uid, name, country, birth_date)
+                    SELECT ${player.id}, "${player.name}", "${player.country}", "${player.birthDate.toISOString()}"
+                    WHERE NOT EXISTS(SELECT 1 FROM players WHERE uid = ${player.id})
                 `, (err) => {
                     if (err) {
+                        console.log(err)
                         reject(err)
                         return
                     } else {

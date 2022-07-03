@@ -8,6 +8,7 @@ import {PlayerAttributesHistory} from "../../model/player/PlayerAttributesHistor
 import {IPlayerRepository} from "../../model/player/IPlayerRepository";
 import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
 
+
 @injectable()
 export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
     private _repository: IPlayerRepository
@@ -53,12 +54,21 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
                 affiliatedTeam: attributes[PlayerAttributeKeyNameJA.affiliatedTeam]
             }
 
+            const rawbirthDate = attributes[PlayerAttributeKeyNameJA.birthDate]
+
             return {
                 id: attributes[PlayerAttributeKeyNameJA.uID],
                 name: attributes[PlayerAttributeKeyNameJA.name],
                 country: attributes[PlayerAttributeKeyNameJA.country],
                 attributesHistories: [attributesHistory],
+                birthDate: rawbirthDate ? this.parseToDate(rawbirthDate) : undefined
             }
         }))
+    }
+
+    private parseToDate = (dateString: string): Date => {
+        const birthDateStr = dateString.match(/\d{4}\/\d{1,2}\/\d{1,2}/) // yyyy-mm-dd or yyyy-m-d
+        const [year, month, day] = birthDateStr[0].split('/')
+        return new Date(Number(year), Number(month), Number(day))
     }
 }

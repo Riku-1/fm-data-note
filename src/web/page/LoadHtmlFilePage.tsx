@@ -18,7 +18,9 @@ export const LoadHtmlFilePage = () => {
 
     const savePlayers = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        await window.exposedAPI.savePlayers(players)
+        await window.exposedAPI.savePlayers(players).catch(_ => {
+            alert('保存に失敗しました。')
+        })
     }
 
     const [columnDefs] = useState([

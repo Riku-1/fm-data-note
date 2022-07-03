@@ -4,5 +4,8 @@ import {Player} from "./package/domain/model/player/Player";
 
 contextBridge.exposeInMainWorld('exposedAPI', {
   loadPlayersFile: () => ipcRenderer.invoke(loadPlayersFileEvent),
-  savePlayers: (players: Player[]) => ipcRenderer.invoke(savePlayersEvent, players),
+  savePlayers: (players: Player[]) => ipcRenderer.invoke(savePlayersEvent, players)
+      .catch(err => {
+        throw err
+      }),
 });

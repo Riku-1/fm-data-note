@@ -16,7 +16,9 @@ export class SavePlayersInteractor implements ISavePlayersUseCase {
 
     async handle(players: Player[]): Promise<void> {
         for (const player of players) {
-            await this._repository.save(player)
+            await this._repository.save(player).catch(err => {
+                throw err
+            })
         }
     }
 }

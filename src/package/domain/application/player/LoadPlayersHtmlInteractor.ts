@@ -1,20 +1,30 @@
 import {ILoadPlayersHtmlUseCase} from "../../../usecase/player/ILoadPlayersHtmlUseCase";
 import {Player} from "../../model/player/Player";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
 import * as fs from "fs";
 import {JSDOM} from "jsdom";
 import {PlayerAttributeKeyNameJA} from "./PlayerAttributeKeyName";
+import {PlayerAttributesHistory} from "../../model/player/PlayerAttributesHistory";
+import {IPlayerRepository} from "../../model/player/IPlayerRepository";
+import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
 
 @injectable()
 export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
-    handle(filePath: string): Player[] {
+    private _repository: IPlayerRepository
+
+    constructor(
+        @inject(REPOSITORY_TYPES.PlayerRepository) repository
+    ) {
+        this._repository = repository
+    }
+
+    async handle(filePath: string): Promise<Player[]> {
+        // read file
         const contentStr = fs.readFileSync(filePath, "utf8")
-
-        const dom = new JSDOM(contentStr)
-        const document = dom.window.document
-
+        const document = new JSDOM(contentStr).window.document
         const rows = document.querySelectorAll("table tr")
 
+        // parse
         let keyNames = []
         const thElms = rows[0].querySelectorAll("th")
         thElms.forEach(elm => {
@@ -35,13 +45,20 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
             }
         })
 
-        return playerAttributesList.map(attributes => {
+        return Promise.all(playerAttributesList.map(async (attributes) => {
+            //const player = await this._repository.find(attributes[PlayerAttributeKeyNameJA.uID])
+            //console.log(player)
+
+            const attributesHistory: PlayerAttributesHistory = {
+                affiliatedTeam: attributes[PlayerAttributeKeyNameJA.affiliatedTeam]
+            }
+
             return {
                 id: attributes[PlayerAttributeKeyNameJA.uID],
                 name: attributes[PlayerAttributeKeyNameJA.name],
                 country: attributes[PlayerAttributeKeyNameJA.country],
-                affiliatedTeam: attributes[PlayerAttributeKeyNameJA.affiliatedTeam],
+                attributesHistories: [attributesHistory],
             }
-        })
+        }))
     }
 }

@@ -37,7 +37,9 @@ export class IpcMainEventHandler {
 
     private handleSavePlayers(): void {
         ipcMain.handle(savePlayersEvent, async (_, players: Player[]) => {
-            return this._savePlayerUseCase.handle(players)
+            return this._savePlayerUseCase.handle(players).catch(err => {
+                throw err
+            })
         })
     }
 }

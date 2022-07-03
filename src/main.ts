@@ -4,6 +4,9 @@ import { searchDevtools } from 'electron-search-devtools';
 import { BrowserWindow, app, ipcMain, session } from 'electron';
 import {IpcMainEventHandler} from "./ipcMain/IpcMainEventHandler";
 import { DIContainer } from "./package/inject_types/diConfig/inversify.config"
+import {IDBContainer, TYPE_DBContainer} from "./package/domain/application/IDBContainer";
+
+console.log('------bbbbbbb------------')
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -34,6 +37,15 @@ const createWindow = () => {
 
   const handler = DIContainer.resolve(IpcMainEventHandler)
   handler.handleAllEvent()
+
+  const dbContainer = DIContainer.get<IDBContainer>(TYPE_DBContainer)
+  dbContainer.initialize()
+      .then(_ => {
+        console.log("initialized")
+      })
+      .catch((err) => {
+        console.log(err)
+      });
 
   if (isDev) {
     searchDevtools('REACT')

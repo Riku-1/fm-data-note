@@ -24,3 +24,8 @@ body {
   display: grid;
   justify-content: center;
 }
+
+/* data grid style */
+.invalid-status {
+  background-color: lightcoral !important;
+}

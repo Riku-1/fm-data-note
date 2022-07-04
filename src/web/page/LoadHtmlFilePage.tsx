@@ -1,35 +1,74 @@
-import React, {useState, MouseEvent} from 'react';
-import {Player} from "../../package/domain/model/player/Player";
+import React, {useState, MouseEvent, useEffect, useMemo} from 'react';
 import {AgGridReact} from "ag-grid-react";
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
-
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import {canSaveCurrentPlayer, CurrentPlayer} from "../../package/domain/application/player/CurrentPlayer";
+import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
+import nationMaster from "../../asset/nation/nation.json"
 
 export const LoadHtmlFilePage = () => {
-    const [players, setPlayers] = useState<Player[]>([])
+    const [players, setPlayers] = useState<CurrentPlayer[]>([])
+    const [columnDefs, setColumnDefs] = useState([])
+    useEffect(() => {
+        (async () => {
+            setColumnDefs([
+                { field: 'id' },
+                { field: 'name' },
+                {
+                    field: 'nation',
+                    editable: true,
+                    cellEditor: 'agSelectCellEditor',
+                    cellEditorParams: {
+                        // 作ったがこの画面でチームはいじれなくていい、別の画面で流用するのでこのままにしておく
+                        values: nationMaster.map(nation => nation["alpha-3"]),
+                    },
+                },
+                {
+                    field: 'currentClub',
+                    editable: true,
+                },
+                { field: 'currentLoanFrom' },
+                { field: 'birthDate' },
+            ])
+        })()
+    }, [])
+
+    const rowClassRules = useMemo(() => {
+        return {
+            'invalid-status': (params) => {
+                return !canSaveCurrentPlayer(params.data)
+            },
+        };
+    }, [])
+
 
     const parsePlayersHtmlFile = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
 
         const players = await window.exposedAPI.loadPlayersFile()
+        console.log(players)
         setPlayers(players)
     }
 
-    const savePlayers = async (event: MouseEvent<HTMLButtonElement>) => {
+    const saveCurrentPlayerAttributesList = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        await window.exposedAPI.savePlayers(players).catch(_ => {
+
+        if (!players.every(player => canSaveCurrentPlayer(player))) {
+            alert('不正な選手情報が存在します。情報を修正してください。')
+            return
+        }
+
+        await window.exposedAPI.saveCurrentPlayerAttributesList(players, new Date()).catch(_ => {
             alert('保存に失敗しました。')
         })
     }
 
-    const [columnDefs] = useState([
-        { field: 'id' },
-        { field: 'name' },
-        { field: 'country' },
-        { field: 'club' },
-        { field: 'birthDate' },
-    ])
+    const setPlayer = (player: CurrentPlayer) => {
+        const index = players.findIndex(playerState => playerState.id === player.id)
+        const replaced = [...players]
+        replaced[index] = player
+        setPlayers(replaced)
+    }
 
     return (
         <div id="container">
@@ -40,14 +79,17 @@ export const LoadHtmlFilePage = () => {
             <div id="main-content">
                 <button type="button" onClick={parsePlayersHtmlFile}>open a file</button>
 
-                <div className="ag-theme-alpine" style={{height: 400, width: 600}}>
+                <div className="ag-theme-alpine" style={{height: "90vh", width: "70vw"}}>
                     <AgGridReact
                         rowData={players}
-                        columnDefs={columnDefs}>
+                        columnDefs={columnDefs}
+                        onCellValueChanged={event => {setPlayer(event.data)}}
+                        rowClassRules={rowClassRules}
+                    >
                     </AgGridReact>
                 </div>
 
-                <button type="button" onClick={savePlayers}>save players</button>
+                <button type="button" onClick={saveCurrentPlayerAttributesList}>save players</button>
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
-import {Player} from "../../domain/model/player/Player";
+import {CurrentPlayer} from "../../domain/application/player/CurrentPlayer";
 
 export interface ILoadPlayersHtmlUseCase {
-    handle(filePath: string) : Promise<Player[]>
+    handle(filePath: string) : Promise<CurrentPlayer[]>
 }

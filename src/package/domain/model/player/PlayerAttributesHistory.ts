@@ -1,5 +1,5 @@
 export type PlayerAttributesHistory = {
-    club: string|null
-    onLoanFrom: string|null
+    clubId: number|null
+    onLoanFromClubId: number|null
     savedAt?: Date
 }

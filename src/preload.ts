@@ -1,6 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import {getClubsPlayersEvent, loadPlayersFileEvent, savePlayersEvent} from "./ipcMain/electronEvent";
-import {Player} from "./package/domain/model/player/Player";
+import {
+    getClubsEvent,
+    getClubsPlayersEvent,
+    loadPlayersFileEvent,
+    saveClubEvent,
+    saveCurrentPlayerAttributesListEvent
+} from "./ipcMain/electronEvent";
+import {Club} from "./package/domain/model/club/Club";
+import {CurrentPlayer} from "./package/domain/application/player/CurrentPlayer";
 
 contextBridge.exposeInMainWorld('exposedAPI', {
     loadPlayersFile: () => ipcRenderer.invoke(loadPlayersFileEvent)
@@ -8,7 +15,7 @@ contextBridge.exposeInMainWorld('exposedAPI', {
             throw err
         }),
 
-    savePlayers: (players: Player[]) => ipcRenderer.invoke(savePlayersEvent, players)
+    saveCurrentPlayerAttributesList: (players: CurrentPlayer[], savedAt: Date) => ipcRenderer.invoke(saveCurrentPlayerAttributesListEvent, players, savedAt)
         .catch(err => {
             throw err
         }),
@@ -16,5 +23,15 @@ contextBridge.exposeInMainWorld('exposedAPI', {
     getClubsPlayers: (club: string, savedAt: Date) => ipcRenderer.invoke(getClubsPlayersEvent, club, savedAt)
         .catch(err => {
             throw err
-        })
+        }),
+
+    getClubs: () => ipcRenderer.invoke(getClubsEvent)
+        .catch(err => {
+            throw err
+        }),
+
+    saveClub: (club: Club) => ipcRenderer.invoke(saveClubEvent, club)
+        .catch(err => {
+            throw err
+        }),
 });

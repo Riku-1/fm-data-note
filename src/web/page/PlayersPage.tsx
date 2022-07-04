@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
-import {Player} from "../../package/domain/model/player/Player";
 import {AgGridReact} from "ag-grid-react";
+import {Player} from "../../package/domain/model/player/Player";
+import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
 
 export const PlayersPage = () => {
     const [players, setPlayers] = useState<Player[]>([])
@@ -11,7 +11,7 @@ export const PlayersPage = () => {
             .then(players => {
                 setPlayers(players)
             })
-    })
+    }, [])
 
     const [columnDefs] = useState([
         { field: 'id' },

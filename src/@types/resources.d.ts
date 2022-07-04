@@ -8,7 +8,7 @@ declare module '*.wof';
 declare module '*.woff';
 declare module '*.woff2';
 
-declare module '@/asset/nation/nation.json' {
+declare module '*/nation.json' {
     type Nation = {
         name: string
         "alpha-2": string

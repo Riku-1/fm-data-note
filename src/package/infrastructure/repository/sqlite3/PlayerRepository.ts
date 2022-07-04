@@ -51,13 +51,13 @@ export class PlayerRepository implements IPlayerRepository {
         await dbContainer.exec(`BEGIN;`)
 
         await dbContainer.run(`
-            INSERT INTO Players (uid, name, country, birthDate)
-            VALUES (${player.id}, "${player.name}", "${player.country}", "${player.birthDate.toISOString()}")
+            INSERT INTO Players (uid, name, nation, birthDate)
+            VALUES (${player.id}, "${player.name}", "${player.nation}", "${player.birthDate.toISOString()}")
         `)
 
         await dbContainer.run(`
-            INSERT INTO PlayerAttributesHistories (playerId, club, onLoanFrom, savedAt)
-            VALUES (${player.id}, "${player.attributesHistories[0].club}", "${player.attributesHistories[0].onLoanFrom}", "${player.attributesHistories[0].savedAt.toISOString()}")
+            INSERT INTO PlayerAttributesHistories (playerId, clubId, onLoanFromClubId, savedAt)
+            VALUES (${player.id}, "${player.attributesHistories[0].clubId}", "${player.attributesHistories[0].onLoanFromClubId}", "${player.attributesHistories[0].savedAt.toISOString()}")
         `)
 
         await dbContainer.exec(`COMMIT;`)

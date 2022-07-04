@@ -2,7 +2,9 @@
   "extends": ".",
   "compilerOptions": {
     "module": "CommonJS",
-    "outDir": "dist"
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": ["src/*.ts", "src/@types/*.d.ts"]
 }

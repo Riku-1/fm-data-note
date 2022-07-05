@@ -2,9 +2,10 @@ export type PlayerAttributeKeyName = {
     uID: string
     name: string
     club: string
-    onLoanFrom: string,
+    onLoanFrom: string
     nation: string
     birthDate: string
+    homeGrownStatus: string
 }
 
 export const PlayerAttributeKeyNameJA: PlayerAttributeKeyName = {
@@ -14,4 +15,5 @@ export const PlayerAttributeKeyNameJA: PlayerAttributeKeyName = {
     name: "名前",
     uID: "UID",
     birthDate: "誕生日",
+    homeGrownStatus: "ホームグロウンステータス",
 }

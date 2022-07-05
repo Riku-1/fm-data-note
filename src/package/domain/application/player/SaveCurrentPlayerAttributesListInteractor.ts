@@ -37,6 +37,7 @@ export class SaveCurrentPlayerAttributesListInteractor implements ISaveCurrentPl
                     clubId: currentPlayer.currentClubId,
                     onLoanFromClubId: currentPlayer.currentLoanFromId,
                     savedAt: savedAt,
+                    homeGrownStatus: currentPlayer.homeGrownStatus,
                 }]
             }
 

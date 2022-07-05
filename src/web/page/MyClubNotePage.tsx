@@ -6,6 +6,7 @@ import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {Club} from "../../package/domain/model/club/Club";
 import {fromHyphenYYYYMMDD, toHyphenYYYYMMDD} from "../../package/domain/model/shared/MyCustomDate";
 import {CurrentPlayer} from "../../package/domain/application/player/CurrentPlayer";
+import {HomeGrownStatus} from "../../package/domain/model/player/HomeGrownStatus";
 
 export const MyClubNotePage = () => {
     const [myClub, setMyCLub] = useState<Club>({
@@ -58,6 +59,13 @@ export const MyClubNotePage = () => {
         { field: 'nation' },
         { field: 'currentClub' },
         { field: 'currentLoanFrom' },
+        {
+            field: 'homeGrownStatus',
+            cellClassRules: {
+                excellent: params => params.value === HomeGrownStatus.Club,
+                good: params => params.value === HomeGrownStatus.Nation,
+            }
+        },
     ])
 
     return (

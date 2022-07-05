@@ -19,12 +19,14 @@ CREATE TABLE IF NOT EXISTS Players (
 CREATE UNIQUE INDEX IF NOT EXISTS playersUidIndex ON Players(uid);
 CREATE INDEX IF NOT EXISTS playersNationIndex ON Players(nation);
 
+-- TODO: Create cascade
 -- PlayerAttributesHistories
 CREATE TABLE IF NOT EXISTS PlayerAttributesHistories (
     playerId BIGINT NOT NULL,
     clubId INT,
     onLoanFromClubId INT,
     savedAt CHARACTER(10) NOT NULL,
+    homeGrownStatus TEXT NOTN NULL DEFAULT 'None',
 
     CONSTRAINT fkPlayerId FOREIGN KEY (playerId) REFERENCES Players(uid),
     CONSTRAINT fkClubId FOREIGN KEY (clubId) REFERENCES Clubs(uid),

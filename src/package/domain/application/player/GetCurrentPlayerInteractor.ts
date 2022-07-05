@@ -24,7 +24,6 @@ export class GetCurrentPlayerInteractor implements IGetCurrentPlayerUseCase {
         const player = await this._playerRepository.find(playerId)
         const historyAtDate = player.attributesHistories.find(history => isSameDate(history.savedAt, savedAt))
 
-        console.log(historyAtDate)
         if (!historyAtDate) {
             return null
         }
@@ -46,6 +45,7 @@ export class GetCurrentPlayerInteractor implements IGetCurrentPlayerUseCase {
             currentClub: club?.name ?? null,
             currentLoanFromId: onLoanFrom?.id ?? null,
             currentLoanFrom: onLoanFrom?.name ?? null,
+            homeGrownStatus: historyAtDate.homeGrownStatus
         }
     }
 

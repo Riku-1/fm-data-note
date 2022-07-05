@@ -38,13 +38,16 @@ export const LoadHtmlFilePage = () => {
                     field: 'birthDate',
                     valueGetter: (params) => toHyphenYYYYMMDD(params.data.birthDate),
                 },
+                {
+                    field: 'homeGrownStatus'
+                }
             ])
         })()
     }, [])
 
     const rowClassRules = useMemo(() => {
         return {
-            'invalid-status': (params) => {
+            'bad': (params) => {
                 return !canSaveCurrentPlayer(params.data)
             },
         };

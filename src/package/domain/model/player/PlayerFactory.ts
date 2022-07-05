@@ -9,6 +9,7 @@ export class PlayerFactory {
                 clubId: history.clubId,
                 onLoanFromClubId: history.onLoanFromClubId,
                 savedAt: fromYYYYMMDD(history.savedAt),
+                homeGrownStatus: history.homeGrownStatus
             }
         })
 

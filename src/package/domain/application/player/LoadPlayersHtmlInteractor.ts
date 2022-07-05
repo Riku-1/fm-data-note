@@ -9,6 +9,7 @@ import {CurrentPlayer} from "./CurrentPlayer";
 import {IClubRepository} from "../../model/club/IClubRepository";
 import {getClubFromTrivialName} from "../../model/club/Club";
 import {MyCustomDate} from "../../model/shared/MyCustomDate";
+import {HomeGrownStatus} from "../../model/player/HomeGrownStatus";
 
 
 @injectable()
@@ -67,6 +68,7 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
                 currentLoanFrom: loanFromClubTrivialName,
                 currentLoanFromId: getClubFromTrivialName(loanFromClubTrivialName, clubs)[0]?.id ?? null,
                 birthDate: this.parseToDate(rawBirthDate),
+                homeGrownStatus: this.fromJAStringToHomeGrownStatus(attributes[PlayerAttributeKeyNameJA.homeGrownStatus]),
             }
         }))
     }
@@ -80,5 +82,17 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
             month: Number(month),
             day: Number(day),
         }
+    }
+
+    private fromJAStringToHomeGrownStatus = (jaString: string): HomeGrownStatus => {
+        if (jaString.indexOf('国内育成') !== -1) {
+            return HomeGrownStatus.Nation
+        }
+
+        if (jaString.indexOf('クラブ内育成') !== -1) {
+            return HomeGrownStatus.Club
+        }
+
+        return HomeGrownStatus.None
     }
 }

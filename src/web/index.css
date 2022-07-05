@@ -26,6 +26,17 @@ body {
 }
 
 /* data grid style */
-.invalid-status {
-  background-color: lightcoral !important;
+.excellent {
+  background-color: green !important;
+  color: white;
+}
+
+.good {
+  background-color: lightgreen  !important;
+  color: white;
+}
+
+.bad {
+  background-color: lightcoral  !important;
+  color: white;
 }

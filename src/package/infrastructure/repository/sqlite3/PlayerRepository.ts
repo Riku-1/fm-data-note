@@ -68,8 +68,14 @@ export class PlayerRepository implements IPlayerRepository {
         `)
 
         await dbContainer.run(`
-            INSERT INTO PlayerAttributesHistories (playerId, clubId, onLoanFromClubId, savedAt)
-            VALUES (${player.id}, "${player.attributesHistories[0].clubId}", "${player.attributesHistories[0].onLoanFromClubId}", "${toYYYYMMDD(player.attributesHistories[0].savedAt)}")
+            INSERT INTO PlayerAttributesHistories (playerId, clubId, onLoanFromClubId, savedAt, homeGrownStatus)
+            VALUES (
+                        ${player.id},
+                        "${player.attributesHistories[0].clubId}",
+                        "${player.attributesHistories[0].onLoanFromClubId}",
+                        "${toYYYYMMDD(player.attributesHistories[0].savedAt)}",
+                        "${player.attributesHistories[0].homeGrownStatus}"
+                    )
         `)
 
         await dbContainer.exec(`COMMIT;`)

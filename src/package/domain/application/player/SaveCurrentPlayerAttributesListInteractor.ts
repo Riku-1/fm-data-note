@@ -4,6 +4,7 @@ import {Player} from "../../model/player/Player";
 import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
 import {IPlayerRepository} from "../../model/player/IPlayerRepository";
 import {CurrentPlayer} from "./CurrentPlayer";
+import {MyCustomDate} from "../../model/shared/MyCustomDate";
 
 @injectable()
 export class SaveCurrentPlayerAttributesListInteractor implements ISaveCurrentPlayerAttributesListUseCase {
@@ -15,7 +16,7 @@ export class SaveCurrentPlayerAttributesListInteractor implements ISaveCurrentPl
         this._repository = repository
     }
 
-    async handle(currentPlayers: CurrentPlayer[], savedAt: Date): Promise<void> {
+    async handle(currentPlayers: CurrentPlayer[], savedAt: MyCustomDate): Promise<void> {
         for (const currentPlayer of currentPlayers) {
             const savedPlayer = await this._repository.find(currentPlayer.id).catch(err => {
                 throw err

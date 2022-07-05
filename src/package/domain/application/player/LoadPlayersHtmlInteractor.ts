@@ -8,6 +8,7 @@ import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
 import {CurrentPlayer} from "./CurrentPlayer";
 import {IClubRepository} from "../../model/club/IClubRepository";
 import {getClubFromTrivialName} from "../../model/club/Club";
+import {MyCustomDate} from "../../model/shared/MyCustomDate";
 
 
 @injectable()
@@ -51,7 +52,6 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
         })
 
         const clubs = await this._clubRepository.findAll()
-        console.log(clubs)
 
         return Promise.all(playerAttributesList.map(async (attributes) => {
             const rawBirthDate = attributes[PlayerAttributeKeyNameJA.birthDate]
@@ -65,15 +65,20 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
                 currentClub: clubTrivialName,
                 currentClubId: getClubFromTrivialName(clubTrivialName, clubs)[0]?.id ?? null,
                 currentLoanFrom: loanFromClubTrivialName,
-                currentLoanFromId: getClubFromTrivialName(clubTrivialName, clubs)[0]?.id ?? null,
-                birthDate: rawBirthDate ? this.parseToDate(rawBirthDate) : undefined
+                currentLoanFromId: getClubFromTrivialName(loanFromClubTrivialName, clubs)[0]?.id ?? null,
+                birthDate: this.parseToDate(rawBirthDate),
             }
         }))
     }
 
-    private parseToDate = (dateString: string): Date => {
+    private parseToDate = (dateString: string): MyCustomDate => {
         const birthDateStr = dateString.match(/\d{4}\/\d{1,2}\/\d{1,2}/) // yyyy-mm-dd or yyyy-m-d
         const [year, month, day] = birthDateStr[0].split('/')
-        return new Date(Number(year), Number(month), Number(day))
+
+        return {
+            year: Number(year),
+            month: Number(month),
+            day: Number(day),
+        }
     }
 }

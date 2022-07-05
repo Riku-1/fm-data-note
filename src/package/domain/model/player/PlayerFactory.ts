@@ -1,13 +1,14 @@
 import {Player} from "./Player";
 import {PlayerAttributesHistory} from "./PlayerAttributesHistory";
+import {fromYYYYMMDD} from "../shared/MyCustomDate";
 
 export class PlayerFactory {
     public fromRepository(playerRawObj: any, attributeHistoriesRawObj: any[]): Player {
         const attributesHistories: PlayerAttributesHistory[] = attributeHistoriesRawObj.map(history => {
             return {
                 clubId: history.clubId,
-                onLoanFromClubId: history.onLoanFrom,
-                savedAt: new Date(history.savedAt),
+                onLoanFromClubId: history.onLoanFromClubId,
+                savedAt: fromYYYYMMDD(history.savedAt),
             }
         })
 

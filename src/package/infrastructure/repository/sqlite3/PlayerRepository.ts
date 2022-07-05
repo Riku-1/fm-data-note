@@ -3,6 +3,7 @@ import {IPlayerRepository} from "../../../domain/model/player/IPlayerRepository"
 import {Player} from "../../../domain/model/player/Player";
 import {SqliteContainer} from "../../SqliteContainer";
 import {PlayerFactory} from "../../../domain/model/player/PlayerFactory";
+import {MyCustomDate, toYYYYMMDD} from "../../../domain/model/shared/MyCustomDate";
 
 @injectable()
 export class PlayerRepository implements IPlayerRepository {
@@ -28,15 +29,26 @@ export class PlayerRepository implements IPlayerRepository {
         return this._factory.fromRepository(playerRow, playerAttributesHistoryRows)
     }
 
-
-    async findByClub(club: string, belongsAt: Date): Promise<Player[]> {
+    async findByClub(clubId: number): Promise<Player[]> {
         const dbContainer = new SqliteContainer()
 
-        const nextDate = new Date()
-        nextDate.setDate(belongsAt.getDate() + 1)
+        const playerAttributesHistories = await dbContainer.all(`
+            select * from PlayerAttributesHistories pah WHERE clubId = ${clubId} or onLoanFromClubId = ${clubId}
+        `)
+        dbContainer.close()
+
+        return Promise.all(playerAttributesHistories.map(async (history) => {
+            return await this.find(history.playerId)
+        }))
+    }
+
+
+    async findByClubAt(clubId: number, belongsAt: MyCustomDate): Promise<Player[]> {
+        const dbContainer = new SqliteContainer()
 
         const playerAttributesHistories = await dbContainer.all(`
-            select * from PlayerAttributesHistories pah WHERE savedAt >= "${belongsAt.toISOString().split('T')[0]}" and savedAt < "${nextDate.toDateString().split(('T')[0])}"
+            select * from PlayerAttributesHistories pah WHERE savedAt = ${toYYYYMMDD(belongsAt)}
+                and clubId = ${clubId}
         `)
         dbContainer.close()
 
@@ -52,12 +64,12 @@ export class PlayerRepository implements IPlayerRepository {
 
         await dbContainer.run(`
             INSERT INTO Players (uid, name, nation, birthDate)
-            VALUES (${player.id}, "${player.name}", "${player.nation}", "${player.birthDate.toISOString()}")
+            VALUES (${player.id}, "${player.name}", "${player.nation}", "${toYYYYMMDD(player.birthDate)}")
         `)
 
         await dbContainer.run(`
             INSERT INTO PlayerAttributesHistories (playerId, clubId, onLoanFromClubId, savedAt)
-            VALUES (${player.id}, "${player.attributesHistories[0].clubId}", "${player.attributesHistories[0].onLoanFromClubId}", "${player.attributesHistories[0].savedAt.toISOString()}")
+            VALUES (${player.id}, "${player.attributesHistories[0].clubId}", "${player.attributesHistories[0].onLoanFromClubId}", "${toYYYYMMDD(player.attributesHistories[0].savedAt)}")
         `)
 
         await dbContainer.exec(`COMMIT;`)

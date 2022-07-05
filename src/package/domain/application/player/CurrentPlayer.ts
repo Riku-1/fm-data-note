@@ -1,4 +1,5 @@
 import nationMaster from "../../../../asset/nation/nation.json";
+import {MyCustomDate} from "../../model/shared/MyCustomDate";
 
 export type CurrentPlayer = {
     id: number
@@ -8,7 +9,7 @@ export type CurrentPlayer = {
     currentClubId: number|null
     currentLoanFrom: string|null
     currentLoanFromId: number|null
-    birthDate?: Date
+    birthDate: MyCustomDate
 }
 
 

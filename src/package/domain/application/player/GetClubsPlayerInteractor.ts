@@ -14,8 +14,8 @@ export class GetClubsPlayerInteractor implements IGetClubsPlayerUseCase {
         this._repository = repository
     }
 
-    async handle(club: string, belongsAt: Date): Promise<Player[]> {
-        return await this._repository.findByClub(club, belongsAt)
+    async handle(clubId: number): Promise<Player[]> {
+        return await this._repository.findByClub(clubId)
     }
 
 }

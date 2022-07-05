@@ -11,8 +11,11 @@ export const LeftMenuPanel = () => {
     return (
         <Container>
             <Link to="/load-file">Load file</Link>
-            <Link to="/player">Player</Link>
             <Link to="/club">Club</Link>
+            <Link to="/my-club-note">My Club Note</Link>
+            {/*
+            <Link to="/player">Player</Link>
+            */}
         </Container>
     )
 }

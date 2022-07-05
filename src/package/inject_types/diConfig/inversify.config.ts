@@ -15,12 +15,15 @@ import {ISaveClubUseCase} from "../../usecase/club/ISaveClubUseCase";
 import {SaveClubInteractor} from "../../domain/application/club/SaveClubInteractor";
 import {IGetClubsUseCase} from "../../usecase/club/IGetClubsUseCase";
 import {GetClubsInteractor} from "../../domain/application/club/GetClubsInteractor";
+import {IGetCurrentPlayerUseCase} from "../../usecase/player/IGetCurrentPlayerUseCase";
+import {GetCurrentPlayerInteractor} from "../../domain/application/player/GetCurrentPlayerInteractor";
 
 export const DIContainer = new Container()
 
 // UseCase
 DIContainer.bind<ILoadPlayersHtmlUseCase>(USECASE_TYPE.ParseHtmlStringToPlayersUseCase).to(LoadPlayersHtmlInteractor)
 DIContainer.bind<ISaveCurrentPlayerAttributesListUseCase>(USECASE_TYPE.SaveCurrentPlayerAttributesListUseCase).to(SaveCurrentPlayerAttributesListInteractor)
+DIContainer.bind<IGetCurrentPlayerUseCase>(USECASE_TYPE.GetCurrentPlayerUseCase).to(GetCurrentPlayerInteractor)
 DIContainer.bind<IGetClubsPlayerUseCase>(USECASE_TYPE.GetClubsPlayersUseCase).to(GetClubsPlayerInteractor)
 DIContainer.bind<IGetClubsUseCase>(USECASE_TYPE.GetClubsUseCase).to(GetClubsInteractor)
 DIContainer.bind<ISaveClubUseCase>(USECASE_TYPE.SaveClubUseCase).to(SaveClubInteractor)

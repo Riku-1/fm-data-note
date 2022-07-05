@@ -23,6 +23,27 @@ export class ClubRepository implements IClubRepository {
         })
     }
 
+    async find(id: number): Promise<Club|null> {
+        const dbContainer = new SqliteContainer()
+
+        const club = await dbContainer.get(`
+            select * from Clubs where uid = ${id};
+        `)
+        dbContainer.close()
+
+        if (!club) {
+            return null
+        }
+
+        return {
+            id: club.uid,
+            name: club.name,
+            trivialName: club.trivialName,
+            nation: club.nation,
+        }
+
+    }
+
     async save(club: Club): Promise<void> {
         const dbContainer = new SqliteContainer()
 

@@ -8,7 +8,7 @@ export type Club = {
 // NOTE: 慣用名に対してクラブが複数ある可能性を考え、配列を返すものとする
 export const getClubFromTrivialName = (trivialName: string, clubs: Club[]): Club[] => {
     if (!trivialName) {
-        return null
+        return []
     }
 
     return clubs.filter((club) => {

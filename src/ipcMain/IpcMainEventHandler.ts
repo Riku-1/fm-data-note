@@ -1,7 +1,7 @@
 import {dialog, ipcMain} from "electron"
 import {
     getClubsEvent,
-    getClubsPlayersEvent,
+    getClubsPlayersEvent, getCurrentPlayerEvent,
     loadPlayersFileEvent,
     saveClubEvent,
     saveCurrentPlayerAttributesListEvent
@@ -17,11 +17,14 @@ import {USECASE_TYPE} from "../package/inject_types/diConfig/usecase_type";
 import {CurrentPlayer} from "../package/domain/application/player/CurrentPlayer";
 import {Club} from "../package/domain/model/club/Club";
 import {IGetClubsUseCase} from "../package/usecase/club/IGetClubsUseCase";
+import {MyCustomDate} from "../package/domain/model/shared/MyCustomDate";
+import {IGetCurrentPlayerUseCase} from "../package/usecase/player/IGetCurrentPlayerUseCase";
 
 @injectable()
 export class IpcMainEventHandler {
     private _LoadPlayersHtmlUseCase: ILoadPlayersHtmlUseCase
     private _savePlayerUseCase: ISaveCurrentPlayerAttributesListUseCase
+    private _getCurrentPlayerUseCase: IGetCurrentPlayerUseCase
     private _getClubsPlayersUseCase: IGetClubsPlayerUseCase
     private _getClubsUseCase: IGetClubsUseCase
     private _saveClubUseCase: ISaveClubUseCase
@@ -30,11 +33,13 @@ export class IpcMainEventHandler {
         @inject(USECASE_TYPE.ParseHtmlStringToPlayersUseCase) parseHtmlStringToPlayersUseCase: ILoadPlayersHtmlUseCase,
         @inject(USECASE_TYPE.SaveCurrentPlayerAttributesListUseCase) savePlayersUseCase: ISaveCurrentPlayerAttributesListUseCase,
         @inject(USECASE_TYPE.GetClubsPlayersUseCase) getClubsPlayerUseCase: IGetClubsPlayerUseCase,
+        @inject(USECASE_TYPE.GetCurrentPlayerUseCase) getCurrentPlayerUseCase: IGetCurrentPlayerUseCase,
         @inject(USECASE_TYPE.GetClubsUseCase) getClubsUseCase: IGetClubsUseCase,
         @inject(USECASE_TYPE.SaveClubUseCase) saveClubUseCase: ISaveClubUseCase,
     ) {
         this._LoadPlayersHtmlUseCase = parseHtmlStringToPlayersUseCase
         this._savePlayerUseCase = savePlayersUseCase
+        this._getCurrentPlayerUseCase = getCurrentPlayerUseCase
         this._getClubsPlayersUseCase = getClubsPlayerUseCase
         this._getClubsUseCase = getClubsUseCase
         this._saveClubUseCase = saveClubUseCase
@@ -43,6 +48,7 @@ export class IpcMainEventHandler {
     public handleAllEvent() {
         this.handleUploadPlayersFile()
         this.handleSaveCurrentPlayerAttributesList()
+        this.handleGetCurrentPlayer()
         this.handleGetClubsPlayers()
         this.handleSaveClub()
         this.handleGetClubs()
@@ -60,16 +66,24 @@ export class IpcMainEventHandler {
     }
 
     private handleSaveCurrentPlayerAttributesList(): void {
-        ipcMain.handle(saveCurrentPlayerAttributesListEvent, async (_, players: CurrentPlayer[], savedAt: Date) => {
+        ipcMain.handle(saveCurrentPlayerAttributesListEvent, async (_, players: CurrentPlayer[], savedAt: MyCustomDate) => {
             return this._savePlayerUseCase.handle(players, savedAt).catch(err => {
                 throw err
             })
         })
     }
 
+    private handleGetCurrentPlayer(): void {
+        ipcMain.handle(getCurrentPlayerEvent, async (_, playerId: number, savedAt: MyCustomDate) => {
+            return this._getCurrentPlayerUseCase.handle(playerId, savedAt).catch(err => {
+                throw err
+            })
+        })
+    }
+
     private handleGetClubsPlayers(): void {
-        ipcMain.handle(getClubsPlayersEvent, async (_, club: string, savedAt: Date) => {
-            return this._getClubsPlayersUseCase.handle(club, savedAt).catch(err => {
+        ipcMain.handle(getClubsPlayersEvent, async (_, clubId: number) => {
+            return this._getClubsPlayersUseCase.handle(clubId).catch(err => {
                 throw err
             })
         })

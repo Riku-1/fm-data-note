@@ -17,7 +17,7 @@ export class PlayerFactory {
             id: playerRawObj.uid,
             name: playerRawObj.name,
             nation: playerRawObj.nation,
-            birthDate: undefined, // TODO
+            birthDate: fromYYYYMMDD(playerRawObj.birthDate),
             attributesHistories: attributesHistories,
         }
     }

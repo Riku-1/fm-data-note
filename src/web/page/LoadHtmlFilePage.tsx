@@ -8,7 +8,7 @@ import nationMaster from "../../asset/nation/nation.json"
 import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {TextField} from "@mui/material";
-import {toHyphenYYYYMMDD} from "../../package/domain/model/shared/MyCustomDate";
+import {fromDate, toHyphenYYYYMMDD} from "../../package/domain/model/shared/MyCustomDate";
 
 export const LoadHtmlFilePage = () => {
     const [players, setPlayers] = useState<CurrentPlayer[]>([])
@@ -54,10 +54,15 @@ export const LoadHtmlFilePage = () => {
     }, [])
 
 
-    const parsePlayersHtmlFile = async (event: MouseEvent<HTMLButtonElement>) => {
+    const loadPlayersHtmlFile = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
 
-        const players = await window.exposedAPI.loadPlayersFile()
+        if (savedAt == null) {
+            alert('日付を設定してください。')
+            return
+        }
+
+        const players = await window.exposedAPI.loadPlayersFile(fromDate(savedAt))
         setPlayers(players)
     }
 
@@ -74,11 +79,7 @@ export const LoadHtmlFilePage = () => {
             return
         }
 
-        await window.exposedAPI.saveCurrentPlayerAttributesList(players, {
-            year: savedAt.getFullYear(),
-            month: savedAt.getMonth() + 1,
-            day: savedAt.getDate(),
-        }).catch(_ => {
+        await window.exposedAPI.saveCurrentPlayerAttributesList(players).catch(_ => {
             alert('保存に失敗しました。')
             return
         })
@@ -100,7 +101,11 @@ export const LoadHtmlFilePage = () => {
             </div>
 
             <div id="main-content">
-                <button type="button" onClick={parsePlayersHtmlFile}>open a file</button>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker onChange={event => {setSavedAt(event)}} value={savedAt} renderInput={(params) => <TextField {...params} />}/>
+                </LocalizationProvider>
+
+                <button type="button" onClick={loadPlayersHtmlFile}>open a file</button>
 
                 <div className="ag-theme-alpine" style={{height: "90vh", width: "70vw"}}>
                     <AgGridReact
@@ -111,10 +116,6 @@ export const LoadHtmlFilePage = () => {
                     >
                     </AgGridReact>
                 </div>
-
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DesktopDatePicker onChange={event => {setSavedAt(event)}} value={savedAt} renderInput={(params) => <TextField {...params} />}/>
-                </LocalizationProvider>
 
                 <button type="button" onClick={saveCurrentPlayerAttributesList}>save players</button>
             </div>

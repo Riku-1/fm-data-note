@@ -25,7 +25,7 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
         this._clubRepository = clubRepository
     }
 
-    async handle(filePath: string): Promise<CurrentPlayer[]> {
+    async handle(filePath: string, savedAt: MyCustomDate): Promise<CurrentPlayer[]> {
         // read file
         const contentStr = fs.readFileSync(filePath, "utf8")
         const document = new JSDOM(contentStr).window.document
@@ -69,6 +69,7 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
                 currentLoanFromId: getClubFromTrivialName(loanFromClubTrivialName, clubs)[0]?.id ?? null,
                 birthDate: this.parseToDate(rawBirthDate),
                 homeGrownStatus: this.fromJAStringToHomeGrownStatus(attributes[PlayerAttributeKeyNameJA.homeGrownStatus]),
+                savedAt: savedAt,
             }
         }))
     }

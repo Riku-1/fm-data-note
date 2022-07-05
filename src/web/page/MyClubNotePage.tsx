@@ -5,7 +5,7 @@ import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {Club} from "../../package/domain/model/club/Club";
 import {fromHyphenYYYYMMDD, toHyphenYYYYMMDD} from "../../package/domain/model/shared/MyCustomDate";
-import {CurrentPlayer} from "../../package/domain/application/player/CurrentPlayer";
+import {CurrentPlayer, getAge} from "../../package/domain/application/player/CurrentPlayer";
 import {HomeGrownStatus} from "../../package/domain/model/player/HomeGrownStatus";
 
 export const MyClubNotePage = () => {
@@ -47,8 +47,6 @@ export const MyClubNotePage = () => {
                 })
             )
 
-            console.log(currentPlayers)
-
             setCurrentPlayers(currentPlayers)
         })()
     }, [selectedDate])
@@ -56,15 +54,36 @@ export const MyClubNotePage = () => {
     const [columnDefs] = useState([
         { field: 'id' },
         { field: 'name' },
-        { field: 'nation' },
-        { field: 'currentClub' },
-        { field: 'currentLoanFrom' },
+        {
+            type: 'numericColumn',
+            field: 'age',
+            sortable: true,
+            valueGetter: (params) => {
+                if (params.data == null) {
+                    return null
+                }
+                return getAge(params.data)
+            }
+        },
+        {
+            field: 'nation',
+            sortable: true,
+        },
+        {
+            field: 'currentClub',
+            sortable: true,
+        },
+        {
+            field: 'currentLoanFrom',
+            sortable: true,
+        },
         {
             field: 'homeGrownStatus',
             cellClassRules: {
                 excellent: params => params.value === HomeGrownStatus.Club,
                 good: params => params.value === HomeGrownStatus.Nation,
-            }
+            },
+            sortable: true,
         },
     ])
 

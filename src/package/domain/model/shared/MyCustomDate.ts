@@ -4,6 +4,14 @@ export type MyCustomDate = {
     day: number
 }
 
+export const fromDate = (date: Date): MyCustomDate => {
+    return {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+    }
+}
+
 export const toYYYYMMDD = (date: MyCustomDate): string => {
     return date.year
         + String(date.month).padStart(2, '0')

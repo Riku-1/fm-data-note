@@ -12,6 +12,7 @@ export type CurrentPlayer = {
     currentLoanFromId: number|null
     birthDate: MyCustomDate
     homeGrownStatus: HomeGrownStatus
+    savedAt: MyCustomDate
 }
 
 
@@ -29,4 +30,22 @@ export const canSaveCurrentPlayer = (player: CurrentPlayer): boolean => {
     }
 
     return player.birthDate !== undefined;
+}
+
+export const getAge = (currentPlayer: CurrentPlayer): number => {
+    const yearDiff = currentPlayer.savedAt.year - currentPlayer.birthDate.year
+
+    if (currentPlayer.savedAt.month > currentPlayer.birthDate.month) {
+        return yearDiff
+    }
+
+    if (currentPlayer.savedAt.month < currentPlayer.birthDate.month) {
+        return yearDiff - 1
+    }
+
+    if (currentPlayer.savedAt.day >= currentPlayer.birthDate.day) {
+        return yearDiff
+    }
+
+    return yearDiff -1
 }

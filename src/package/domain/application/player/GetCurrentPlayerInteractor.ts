@@ -45,7 +45,8 @@ export class GetCurrentPlayerInteractor implements IGetCurrentPlayerUseCase {
             currentClub: club?.name ?? null,
             currentLoanFromId: onLoanFrom?.id ?? null,
             currentLoanFrom: onLoanFrom?.name ?? null,
-            homeGrownStatus: historyAtDate.homeGrownStatus
+            homeGrownStatus: historyAtDate.homeGrownStatus,
+            savedAt: historyAtDate.savedAt,
         }
     }
 

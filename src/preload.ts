@@ -11,12 +11,12 @@ import {CurrentPlayer} from "./package/domain/application/player/CurrentPlayer";
 import {MyCustomDate} from "./package/domain/model/shared/MyCustomDate";
 
 contextBridge.exposeInMainWorld('exposedAPI', {
-    loadPlayersFile: () => ipcRenderer.invoke(loadPlayersFileEvent)
+    loadPlayersFile: (savedAt: MyCustomDate) => ipcRenderer.invoke(loadPlayersFileEvent, savedAt)
         .catch(err => {
             throw err
         }),
 
-    saveCurrentPlayerAttributesList: (players: CurrentPlayer[], savedAt: MyCustomDate) => ipcRenderer.invoke(saveCurrentPlayerAttributesListEvent, players, savedAt)
+    saveCurrentPlayerAttributesList: (players: CurrentPlayer[]) => ipcRenderer.invoke(saveCurrentPlayerAttributesListEvent, players)
         .catch(err => {
             throw err
         }),

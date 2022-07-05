@@ -55,19 +55,19 @@ export class IpcMainEventHandler {
     }
 
     private handleUploadPlayersFile(): void {
-        ipcMain.handle(loadPlayersFileEvent, async () => {
+        ipcMain.handle(loadPlayersFileEvent, async (_, savedAt: MyCustomDate) => {
             const {canceled, filePaths} = await dialog.showOpenDialog({})
             if (canceled) {
                 return
             }
 
-            return this._LoadPlayersHtmlUseCase.handle(filePaths[0])
+            return this._LoadPlayersHtmlUseCase.handle(filePaths[0], savedAt)
         })
     }
 
     private handleSaveCurrentPlayerAttributesList(): void {
-        ipcMain.handle(saveCurrentPlayerAttributesListEvent, async (_, players: CurrentPlayer[], savedAt: MyCustomDate) => {
-            return this._savePlayerUseCase.handle(players, savedAt).catch(err => {
+        ipcMain.handle(saveCurrentPlayerAttributesListEvent, async (_, players: CurrentPlayer[]) => {
+            return this._savePlayerUseCase.handle(players).catch(err => {
                 throw err
             })
         })

@@ -2,7 +2,7 @@ import React, {useState, MouseEvent, useEffect, useMemo} from 'react';
 import {AgGridReact} from "ag-grid-react";
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import {canSaveCurrentPlayer, CurrentPlayer} from "../../package/domain/application/player/CurrentPlayer";
+import {canSaveCurrentPlayer, CurrentPlayer} from "../../package/domain/model/player/CurrentPlayer";
 import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
 import nationMaster from "../../asset/nation/nation.json"
 import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";

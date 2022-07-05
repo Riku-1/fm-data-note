@@ -1,4 +1,4 @@
-import {CurrentPlayer} from "../../domain/application/player/CurrentPlayer";
+import {CurrentPlayer} from "../../domain/model/player/CurrentPlayer";
 import {MyCustomDate} from "../../domain/model/shared/MyCustomDate";
 
 export interface ILoadPlayersHtmlUseCase {

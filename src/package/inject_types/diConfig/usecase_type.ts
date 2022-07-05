@@ -4,6 +4,8 @@ export const USECASE_TYPE = {
     GetCurrentPlayerUseCase: Symbol.for("GetCurrentPlayerUseCase"),
     GetClubsPlayersUseCase: Symbol.for("GetClubsPlayersUseCase"),
 
+    UpdatePlayerAttributesHistoryUseCase: Symbol.for("UpdatePlayerAttributesHistoryUseCase"),
+
     GetClubsUseCase: Symbol.for("GetClubsUseCase"),
     SaveClubUseCase: Symbol.for("SaveClubUseCase"),
 }

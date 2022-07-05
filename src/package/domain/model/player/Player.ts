@@ -1,5 +1,5 @@
 import {PlayerAttributesHistory} from "./PlayerAttributesHistory";
-import {MyCustomDate} from "../shared/MyCustomDate";
+import {isSameDate, MyCustomDate} from "../shared/MyCustomDate";
 
 export type Player = {
     id: number
@@ -11,4 +11,8 @@ export type Player = {
 
 export const getHistoryDateList = (player: Player) => {
     return player.attributesHistories.map(history => history.savedAt)
+}
+
+export const getAttributesHistoryAtDate = (player: Player, date: MyCustomDate): PlayerAttributesHistory|null => {
+    return player.attributesHistories.find(history => isSameDate(history.savedAt, date)) ?? null
 }

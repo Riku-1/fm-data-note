@@ -3,7 +3,7 @@ import {inject, injectable} from "inversify";
 import {Player} from "../../model/player/Player";
 import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
 import {IPlayerRepository} from "../../model/player/IPlayerRepository";
-import {CurrentPlayer} from "./CurrentPlayer";
+import {CurrentPlayer} from "../../model/player/CurrentPlayer";
 
 @injectable()
 export class SaveCurrentPlayerAttributesListInteractor implements ISaveCurrentPlayerAttributesListUseCase {
@@ -37,6 +37,8 @@ export class SaveCurrentPlayerAttributesListInteractor implements ISaveCurrentPl
                     onLoanFromClubId: currentPlayer.currentLoanFromId,
                     savedAt: currentPlayer.savedAt,
                     homeGrownStatus: currentPlayer.homeGrownStatus,
+                    isMember: currentPlayer.isMember,
+                    isPlanToRelease: currentPlayer.isPlanToRelease,
                 }]
             }
 

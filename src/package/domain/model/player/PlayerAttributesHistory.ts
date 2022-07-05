@@ -5,5 +5,7 @@ export type PlayerAttributesHistory = {
     clubId: number|null
     onLoanFromClubId: number|null
     homeGrownStatus: HomeGrownStatus
+    isMember: boolean
+    isPlanToRelease: boolean
     savedAt: MyCustomDate
 }

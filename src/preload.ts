@@ -4,10 +4,10 @@ import {
     getClubsPlayersEvent, getCurrentPlayerEvent,
     loadPlayersFileEvent,
     saveClubEvent,
-    saveCurrentPlayerAttributesListEvent
+    saveCurrentPlayerAttributesListEvent, updatePlayerAttributesHistoryEvent
 } from "./ipcMain/electronEvent";
 import {Club} from "./package/domain/model/club/Club";
-import {CurrentPlayer} from "./package/domain/application/player/CurrentPlayer";
+import {CurrentPlayer} from "./package/domain/model/player/CurrentPlayer";
 import {MyCustomDate} from "./package/domain/model/shared/MyCustomDate";
 
 contextBridge.exposeInMainWorld('exposedAPI', {
@@ -22,6 +22,11 @@ contextBridge.exposeInMainWorld('exposedAPI', {
         }),
 
     getCurrentPlayer: (playerId: number, savedAt: MyCustomDate) => ipcRenderer.invoke(getCurrentPlayerEvent, playerId, savedAt)
+        .catch(err => {
+            throw err
+        }),
+
+    updatePlayerAttributesHistory: (currentPlayer: CurrentPlayer) => ipcRenderer.invoke(updatePlayerAttributesHistoryEvent, currentPlayer)
         .catch(err => {
             throw err
         }),

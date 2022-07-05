@@ -8,8 +8,10 @@ export class PlayerFactory {
             return {
                 clubId: history.clubId,
                 onLoanFromClubId: history.onLoanFromClubId,
+                homeGrownStatus: history.homeGrownStatus,
+                isMember: Boolean(history.isMember),
+                isPlanToRelease: Boolean(history.isPlanToRelease),
                 savedAt: fromYYYYMMDD(history.savedAt),
-                homeGrownStatus: history.homeGrownStatus
             }
         })
 

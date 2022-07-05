@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {MouseEvent, useEffect, useState} from "react";
 import {AgGridReact} from "ag-grid-react";
 import {getHistoryDateList, Player} from "../../package/domain/model/player/Player";
 import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {Club} from "../../package/domain/model/club/Club";
 import {fromHyphenYYYYMMDD, toHyphenYYYYMMDD} from "../../package/domain/model/shared/MyCustomDate";
-import {CurrentPlayer, getAge} from "../../package/domain/application/player/CurrentPlayer";
+import {CurrentPlayer, getAge} from "../../package/domain/model/player/CurrentPlayer";
 import {HomeGrownStatus} from "../../package/domain/model/player/HomeGrownStatus";
+import {AgGridCheckBox} from "../component/shared/ag-grid/AgGridCheckBox";
 
 export const MyClubNotePage = () => {
     const [myClub, setMyCLub] = useState<Club>({
@@ -46,6 +47,7 @@ export const MyClubNotePage = () => {
                     return await window.exposedAPI.getCurrentPlayer(player.id, fromHyphenYYYYMMDD(selectedDate))
                 })
             )
+            console.log(currentPlayers)
 
             setCurrentPlayers(currentPlayers)
         })()
@@ -54,6 +56,14 @@ export const MyClubNotePage = () => {
     const [columnDefs] = useState([
         { field: 'id' },
         { field: 'name' },
+        {
+            field: 'isMember',
+            cellRenderer: AgGridCheckBox,
+        },
+        {
+            field: 'isPlanToRelease',
+            cellRenderer: AgGridCheckBox,
+        },
         {
             type: 'numericColumn',
             field: 'age',
@@ -87,6 +97,19 @@ export const MyClubNotePage = () => {
         },
     ])
 
+    const updatePlayerAttributesHistories = async (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+
+        for (const player of currentPlayers) {
+            await window.exposedAPI.updatePlayerAttributesHistory(player)
+                .catch(_ => {
+                    alert('保存に失敗しました。')
+                    return
+                })
+        }
+        alert('保存しました。')
+    }
+
     return (
         <div id="container">
             <div id="left-menu-panel">
@@ -112,6 +135,8 @@ export const MyClubNotePage = () => {
                         columnDefs={columnDefs}>
                     </AgGridReact>
                 </div>
+
+                <button type="button" onClick={updatePlayerAttributesHistories}>save</button>
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import {inject, injectable} from "inversify";
 import {IClubRepository} from "../../model/club/IClubRepository";
 import {IPlayerRepository} from "../../model/player/IPlayerRepository";
 import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
-import {CurrentPlayer} from "./CurrentPlayer";
+import {CurrentPlayer} from "../../model/player/CurrentPlayer";
 import {IGetCurrentPlayerUseCase} from "../../../usecase/player/IGetCurrentPlayerUseCase";
 
 @injectable()
@@ -46,6 +46,8 @@ export class GetCurrentPlayerInteractor implements IGetCurrentPlayerUseCase {
             currentLoanFromId: onLoanFrom?.id ?? null,
             currentLoanFrom: onLoanFrom?.name ?? null,
             homeGrownStatus: historyAtDate.homeGrownStatus,
+            isMember: historyAtDate.isMember,
+            isPlanToRelease: historyAtDate.isPlanToRelease,
             savedAt: historyAtDate.savedAt,
         }
     }

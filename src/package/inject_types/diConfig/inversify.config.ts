@@ -17,6 +17,10 @@ import {IGetClubsUseCase} from "../../usecase/club/IGetClubsUseCase";
 import {GetClubsInteractor} from "../../domain/application/club/GetClubsInteractor";
 import {IGetCurrentPlayerUseCase} from "../../usecase/player/IGetCurrentPlayerUseCase";
 import {GetCurrentPlayerInteractor} from "../../domain/application/player/GetCurrentPlayerInteractor";
+import {IUpdatePlayerAttributesHistoryUseCase} from "../../usecase/player/IUpdatePlayerAttributesHistoryUseCase";
+import {
+    UpdatePlayerAttributesHistoryInteractor
+} from "../../domain/application/player/UpdatePlayerAttributesHistoryInteractor";
 
 export const DIContainer = new Container()
 
@@ -27,6 +31,7 @@ DIContainer.bind<IGetCurrentPlayerUseCase>(USECASE_TYPE.GetCurrentPlayerUseCase)
 DIContainer.bind<IGetClubsPlayerUseCase>(USECASE_TYPE.GetClubsPlayersUseCase).to(GetClubsPlayerInteractor)
 DIContainer.bind<IGetClubsUseCase>(USECASE_TYPE.GetClubsUseCase).to(GetClubsInteractor)
 DIContainer.bind<ISaveClubUseCase>(USECASE_TYPE.SaveClubUseCase).to(SaveClubInteractor)
+DIContainer.bind<IUpdatePlayerAttributesHistoryUseCase>(USECASE_TYPE.UpdatePlayerAttributesHistoryUseCase).to(UpdatePlayerAttributesHistoryInteractor)
 
 // Repository
 DIContainer.bind<IPlayerRepository>(REPOSITORY_TYPES.PlayerRepository).to(PlayerRepository)

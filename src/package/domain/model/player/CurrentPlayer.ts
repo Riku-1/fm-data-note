@@ -1,7 +1,8 @@
 import nationMaster from "../../../../asset/nation/nation.json";
-import {MyCustomDate} from "../../model/shared/MyCustomDate";
-import {HomeGrownStatus} from "../../model/player/HomeGrownStatus";
+import {MyCustomDate} from "../shared/MyCustomDate";
+import {HomeGrownStatus} from "./HomeGrownStatus";
 
+// TODO: Move to another namespace
 export type CurrentPlayer = {
     id: number
     name: string
@@ -12,6 +13,8 @@ export type CurrentPlayer = {
     currentLoanFromId: number|null
     birthDate: MyCustomDate
     homeGrownStatus: HomeGrownStatus
+    isMember: boolean
+    isPlanToRelease: boolean
     savedAt: MyCustomDate
 }
 

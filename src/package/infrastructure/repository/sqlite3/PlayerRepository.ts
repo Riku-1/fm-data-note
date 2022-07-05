@@ -4,6 +4,7 @@ import {Player} from "../../../domain/model/player/Player";
 import {SqliteContainer} from "../../SqliteContainer";
 import {PlayerFactory} from "../../../domain/model/player/PlayerFactory";
 import {MyCustomDate, toYYYYMMDD} from "../../../domain/model/shared/MyCustomDate";
+import {CurrentPlayer} from "../../../domain/model/player/CurrentPlayer";
 
 @injectable()
 export class PlayerRepository implements IPlayerRepository {
@@ -68,18 +69,31 @@ export class PlayerRepository implements IPlayerRepository {
         `)
 
         await dbContainer.run(`
-            INSERT INTO PlayerAttributesHistories (playerId, clubId, onLoanFromClubId, savedAt, homeGrownStatus)
+            INSERT INTO PlayerAttributesHistories (playerId, clubId, onLoanFromClubId, savedAt, homeGrownStatus, isMember, isPlanToRelease)
             VALUES (
                         ${player.id},
                         "${player.attributesHistories[0].clubId}",
                         "${player.attributesHistories[0].onLoanFromClubId}",
                         "${toYYYYMMDD(player.attributesHistories[0].savedAt)}",
-                        "${player.attributesHistories[0].homeGrownStatus}"
+                        "${player.attributesHistories[0].homeGrownStatus}",
+                        ${player.attributesHistories[0].isMember},
+                        ${player.attributesHistories[0].isPlanToRelease}
                     )
         `)
 
         await dbContainer.exec(`COMMIT;`)
 
         dbContainer.db.close()
+    }
+
+    async updatePlayerAttributesHistory(currentPlayer: CurrentPlayer): Promise<void> {
+        const dBContainer = new SqliteContainer()
+
+        await dBContainer.run(`
+            UPDATE PlayerAttributesHistories
+                SET isMember = ${currentPlayer.isMember}, isPlanToRelease = ${currentPlayer.isPlanToRelease}
+                WHERE playerId = ${currentPlayer.id} and savedAt = ${toYYYYMMDD(currentPlayer.savedAt)}
+        `)
+
     }
 }

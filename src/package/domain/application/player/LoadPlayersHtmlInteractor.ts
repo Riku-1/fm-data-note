@@ -5,7 +5,7 @@ import {JSDOM} from "jsdom";
 import {PlayerAttributeKeyNameJA} from "./PlayerAttributeKeyName";
 import {IPlayerRepository} from "../../model/player/IPlayerRepository";
 import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
-import {CurrentPlayer} from "./CurrentPlayer";
+import {CurrentPlayer} from "../../model/player/CurrentPlayer";
 import {IClubRepository} from "../../model/club/IClubRepository";
 import {getClubFromTrivialName} from "../../model/club/Club";
 import {MyCustomDate} from "../../model/shared/MyCustomDate";
@@ -69,6 +69,8 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
                 currentLoanFromId: getClubFromTrivialName(loanFromClubTrivialName, clubs)[0]?.id ?? null,
                 birthDate: this.parseToDate(rawBirthDate),
                 homeGrownStatus: this.fromJAStringToHomeGrownStatus(attributes[PlayerAttributeKeyNameJA.homeGrownStatus]),
+                isMember: false,
+                isPlanToRelease: false,
                 savedAt: savedAt,
             }
         }))

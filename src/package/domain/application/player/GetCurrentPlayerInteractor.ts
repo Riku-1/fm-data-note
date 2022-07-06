@@ -21,6 +21,7 @@ export class GetCurrentPlayerInteractor implements IGetCurrentPlayerUseCase {
 
 
     async handle(playerId: number, savedAt: MyCustomDate): Promise<CurrentPlayer|null> {
+        // TODO: change to domain service
         const player = await this._playerRepository.find(playerId)
         const historyAtDate = player.attributesHistories.find(history => isSameDate(history.savedAt, savedAt))
 

@@ -1,4 +1,4 @@
-import React, {MouseEvent, useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {AgGridReact} from "ag-grid-react";
 import {getHistoryDateList, Player} from "../../../package/domain/model/player/Player";
 import {LeftMenuPanel} from "../shared/LeftMenuPanel";
@@ -24,6 +24,14 @@ export const MyClubNotePage = () => {
 
     const onCellValueChanged = () => {
         setCurrentPlayers([...currentPlayers])
+
+        for (const player of currentPlayers) {
+            window.exposedAPI.updatePlayerAttributesHistory(player)
+                .catch(_ => {
+                    alert('保存に失敗しました。')
+                    return
+                })
+        }
     }
 
     useEffect(() => {
@@ -52,7 +60,7 @@ export const MyClubNotePage = () => {
                 })
             )
 
-            setCurrentPlayers(currentPlayers)
+            setCurrentPlayers(currentPlayers.filter(player => player !== null))
         })()
     }, [selectedDate])
 
@@ -124,19 +132,6 @@ export const MyClubNotePage = () => {
         }
     }, [])
 
-    const updatePlayerAttributesHistories = async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault()
-
-        for (const player of currentPlayers) {
-            await window.exposedAPI.updatePlayerAttributesHistory(player)
-                .catch(_ => {
-                    alert('保存に失敗しました。')
-                    return
-                })
-        }
-        alert('保存しました。')
-    }
-
     return (
         <div id="container">
             <div id="left-menu-panel">
@@ -167,8 +162,6 @@ export const MyClubNotePage = () => {
                     >
                     </AgGridReact>
                 </div>
-
-                <button type="button" onClick={updatePlayerAttributesHistories}>save</button>
             </div>
         </div>
     )

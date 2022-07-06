@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AgGridReact} from "ag-grid-react";
 import {Player} from "../../package/domain/model/player/Player";
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
+import {LeftMenuPanel} from "./shared/LeftMenuPanel";
 import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";

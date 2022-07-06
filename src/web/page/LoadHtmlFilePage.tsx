@@ -3,7 +3,7 @@ import {AgGridReact} from "ag-grid-react";
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import {canSaveCurrentPlayer, CurrentPlayer} from "../../package/domain/model/player/CurrentPlayer";
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
+import {LeftMenuPanel} from "./shared/LeftMenuPanel";
 import nationMaster from "../../asset/nation/nation.json"
 import {DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";

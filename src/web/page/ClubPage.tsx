@@ -1,5 +1,5 @@
 import React, {MouseEvent, useState} from "react";
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
+import {LeftMenuPanel} from "./shared/LeftMenuPanel";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {Club, validateForSaveClub} from "../../package/domain/model/club/Club";
 import nationsMaster from "../../asset/nation/nation.json"

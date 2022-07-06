@@ -1,13 +1,14 @@
 import React, {MouseEvent, useEffect, useMemo, useState} from "react";
 import {AgGridReact} from "ag-grid-react";
-import {getHistoryDateList, Player} from "../../package/domain/model/player/Player";
-import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
+import {getHistoryDateList, Player} from "../../../package/domain/model/player/Player";
+import {LeftMenuPanel} from "../shared/LeftMenuPanel";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {Club} from "../../package/domain/model/club/Club";
-import {fromHyphenYYYYMMDD, toHyphenYYYYMMDD} from "../../package/domain/model/shared/MyCustomDate";
-import {CurrentPlayer, getAge} from "../../package/domain/model/player/CurrentPlayer";
-import {HomeGrownStatus} from "../../package/domain/model/player/HomeGrownStatus";
-import {AgGridCheckBox} from "../component/shared/ag-grid/AgGridCheckBox";
+import {Club} from "../../../package/domain/model/club/Club";
+import {fromHyphenYYYYMMDD, toHyphenYYYYMMDD} from "../../../package/domain/model/shared/MyCustomDate";
+import {CurrentPlayer, getAge} from "../../../package/domain/model/player/CurrentPlayer";
+import {HomeGrownStatus} from "../../../package/domain/model/player/HomeGrownStatus";
+import {AgGridCheckBox} from "../shared/ag-grid/AgGridCheckBox";
+import {Summary} from "./Summary";
 
 export const MyClubNotePage = () => {
     const [myClub, setMyCLub] = useState<Club>({
@@ -20,6 +21,10 @@ export const MyClubNotePage = () => {
     const [selectableDateList, setSelectableDateList] = useState<string[]>([])
     const [selectedDate, setSelectedDate] = useState<string>("")
     const [currentPlayers, setCurrentPlayers] = useState<CurrentPlayer[]>([])
+
+    const onCellValueChanged = () => {
+        setCurrentPlayers([...currentPlayers])
+    }
 
     useEffect(() => {
         (async () => {
@@ -46,7 +51,6 @@ export const MyClubNotePage = () => {
                     return await window.exposedAPI.getCurrentPlayer(player.id, fromHyphenYYYYMMDD(selectedDate))
                 })
             )
-            console.log(currentPlayers)
 
             setCurrentPlayers(currentPlayers)
         })()
@@ -140,6 +144,8 @@ export const MyClubNotePage = () => {
             </div>
 
             <div id="main-content">
+                <Summary currentPlayers={currentPlayers}/>
+
                 <FormControl sx={{ m: 1, minWidth: 80 }}>
                     <InputLabel id="selectedDate">日付</InputLabel>
                     <Select labelId="selectedDate" label="日付" value={selectedDate} onChange={event => setSelectedDate(event.target.value)}>
@@ -157,6 +163,7 @@ export const MyClubNotePage = () => {
                         rowData={currentPlayers}
                         columnDefs={columnDefs}
                         rowClassRules={rowClassRules}
+                        onCellValueChanged={onCellValueChanged}
                     >
                     </AgGridReact>
                 </div>

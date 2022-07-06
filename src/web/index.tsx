@@ -6,7 +6,7 @@ import './index.css';
 import {HashRouter, Route, Routes} from "react-router-dom";
 import {PlayersPage} from "./page/PlayersPage";
 import {ClubPage} from "./page/ClubPage";
-import {MyClubNotePage} from "./page/MyClubNotePage";
+import {MyClubNotePage} from "./page/MyClubNotePage/MyClubNotePage";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

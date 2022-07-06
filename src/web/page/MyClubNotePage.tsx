@@ -1,4 +1,4 @@
-import React, {MouseEvent, useEffect, useState} from "react";
+import React, {MouseEvent, useEffect, useMemo, useState} from "react";
 import {AgGridReact} from "ag-grid-react";
 import {getHistoryDateList, Player} from "../../package/domain/model/player/Player";
 import {LeftMenuPanel} from "../component/shared/LeftMenuPanel";
@@ -19,7 +19,6 @@ export const MyClubNotePage = () => {
     const [players, setPlayers] = useState<Player[]>([])
     const [selectableDateList, setSelectableDateList] = useState<string[]>([])
     const [selectedDate, setSelectedDate] = useState<string>("")
-
     const [currentPlayers, setCurrentPlayers] = useState<CurrentPlayer[]>([])
 
     useEffect(() => {
@@ -59,10 +58,12 @@ export const MyClubNotePage = () => {
         {
             field: 'isMember',
             cellRenderer: AgGridCheckBox,
+            sortable: true,
         },
         {
             field: 'isPlanToRelease',
             cellRenderer: AgGridCheckBox,
+            sortable: true,
         },
         {
             type: 'numericColumn',
@@ -96,6 +97,12 @@ export const MyClubNotePage = () => {
             sortable: true,
         },
     ])
+
+    const rowClassRules = useMemo(() => {
+        return {
+            'gray-background': (params) => params.data.isPlanToRelease
+        }
+    }, [])
 
     const updatePlayerAttributesHistories = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
@@ -132,7 +139,9 @@ export const MyClubNotePage = () => {
                 <div className="ag-theme-alpine" style={{height: "90vh", width: "70vw"}}>
                     <AgGridReact
                         rowData={currentPlayers}
-                        columnDefs={columnDefs}>
+                        columnDefs={columnDefs}
+                        rowClassRules={rowClassRules}
+                    >
                     </AgGridReact>
                 </div>
 

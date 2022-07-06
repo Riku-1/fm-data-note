@@ -9,6 +9,6 @@ export const AgGridCheckBox = (props) => {
     }
 
     return (
-        <input type="checkbox" checked={props.value} onClick={event => {checkHandler(event)}}/>
+        <input type="checkbox" checked={props.value} onChange={event => {checkHandler(event)}}/>
     )
 }

@@ -40,3 +40,7 @@ body {
   background-color: lightcoral  !important;
   color: white;
 }
+
+.gray-background {
+  background-color: darkgray !important;
+}

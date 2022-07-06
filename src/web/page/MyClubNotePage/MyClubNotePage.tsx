@@ -125,9 +125,7 @@ export const MyClubNotePage = () => {
         {
             field: 'memo',
             cellRenderer: TextInput,
-            cellEditorPopup: true,
             width: 600,
-            editable: true,
             autoHeight: true
         }
     ])

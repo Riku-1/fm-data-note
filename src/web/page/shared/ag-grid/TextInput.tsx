@@ -17,6 +17,10 @@ export const TextInput = (props) => {
     }
 
     const getBreakLinedText = (text: string) => {
+        if (!text) {
+            return 'No Text'
+        }
+
         return (
             text.split(/(\n)/g).map((t, i) => (t === '\n')?<br key={i}/>:t)
         )
@@ -35,7 +39,9 @@ export const TextInput = (props) => {
                     />
                     : <div
                         className="new-line-text"
-                        onClick={handleClick}>{getBreakLinedText(props.value) || "No Text" }
+                        onClick={handleClick}
+                    >
+                        {getBreakLinedText(props.value)}
                     </div>
             }
         </div>

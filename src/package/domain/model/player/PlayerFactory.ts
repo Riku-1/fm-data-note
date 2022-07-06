@@ -11,6 +11,7 @@ export class PlayerFactory {
                 homeGrownStatus: history.homeGrownStatus,
                 isMember: Boolean(history.isMember),
                 isPlanToRelease: Boolean(history.isPlanToRelease),
+                memo: history.memo,
                 savedAt: fromYYYYMMDD(history.savedAt),
             }
         })

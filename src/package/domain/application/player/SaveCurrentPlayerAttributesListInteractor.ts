@@ -39,6 +39,7 @@ export class SaveCurrentPlayerAttributesListInteractor implements ISaveCurrentPl
                     homeGrownStatus: currentPlayer.homeGrownStatus,
                     isMember: currentPlayer.isMember,
                     isPlanToRelease: currentPlayer.isPlanToRelease,
+                    memo: currentPlayer.memo
                 }]
             }
 

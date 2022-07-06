@@ -7,5 +7,6 @@ export type PlayerAttributesHistory = {
     homeGrownStatus: HomeGrownStatus
     isMember: boolean
     isPlanToRelease: boolean
+    memo: string
     savedAt: MyCustomDate
 }

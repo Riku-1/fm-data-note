@@ -2,7 +2,6 @@ import nationMaster from "../../../../asset/nation/nation.json";
 import {MyCustomDate} from "../shared/MyCustomDate";
 import {HomeGrownStatus} from "./HomeGrownStatus";
 
-// TODO: Move to another namespace
 export type CurrentPlayer = {
     id: number
     name: string
@@ -15,6 +14,7 @@ export type CurrentPlayer = {
     homeGrownStatus: HomeGrownStatus
     isMember: boolean
     isPlanToRelease: boolean
+    memo: string
     savedAt: MyCustomDate
 }
 

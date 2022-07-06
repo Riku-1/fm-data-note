@@ -91,7 +91,7 @@ export class PlayerRepository implements IPlayerRepository {
 
         await dBContainer.run(`
             UPDATE PlayerAttributesHistories
-                SET isMember = ${currentPlayer.isMember}, isPlanToRelease = ${currentPlayer.isPlanToRelease}
+                SET isMember = ${currentPlayer.isMember}, isPlanToRelease = ${currentPlayer.isPlanToRelease}, memo = "${currentPlayer.memo}"
                 WHERE playerId = ${currentPlayer.id} and savedAt = ${toYYYYMMDD(currentPlayer.savedAt)}
         `)
 

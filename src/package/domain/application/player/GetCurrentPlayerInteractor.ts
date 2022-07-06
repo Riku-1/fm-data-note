@@ -49,6 +49,7 @@ export class GetCurrentPlayerInteractor implements IGetCurrentPlayerUseCase {
             homeGrownStatus: historyAtDate.homeGrownStatus,
             isMember: historyAtDate.isMember,
             isPlanToRelease: historyAtDate.isPlanToRelease,
+            memo: historyAtDate.memo,
             savedAt: historyAtDate.savedAt,
         }
     }

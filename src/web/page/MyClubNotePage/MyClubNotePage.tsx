@@ -9,6 +9,7 @@ import {CurrentPlayer, getAge} from "../../../package/domain/model/player/Curren
 import {HomeGrownStatus} from "../../../package/domain/model/player/HomeGrownStatus";
 import {AgGridCheckBox} from "../shared/ag-grid/AgGridCheckBox";
 import {Summary} from "./Summary";
+import {TextInput} from "../shared/ag-grid/TextInput";
 
 export const MyClubNotePage = () => {
     const [myClub, setMyCLub] = useState<Club>({
@@ -22,16 +23,13 @@ export const MyClubNotePage = () => {
     const [selectedDate, setSelectedDate] = useState<string>("")
     const [currentPlayers, setCurrentPlayers] = useState<CurrentPlayer[]>([])
 
-    const onCellValueChanged = () => {
+    const onCellValueChanged = (params) => {
         setCurrentPlayers([...currentPlayers])
 
-        for (const player of currentPlayers) {
-            window.exposedAPI.updatePlayerAttributesHistory(player)
-                .catch(_ => {
-                    alert('保存に失敗しました。')
-                    return
-                })
-        }
+        window.exposedAPI.updatePlayerAttributesHistory(params.data)
+            .catch(_ => {
+                alert('保存に失敗しました。')
+            })
     }
 
     useEffect(() => {
@@ -124,6 +122,14 @@ export const MyClubNotePage = () => {
             resizable: true,
             width: 100,
         },
+        {
+            field: 'memo',
+            cellRenderer: TextInput,
+            cellEditorPopup: true,
+            width: 600,
+            editable: true,
+            autoHeight: true
+        }
     ])
 
     const rowClassRules = useMemo(() => {
@@ -131,6 +137,10 @@ export const MyClubNotePage = () => {
             'gray-background': (params) => params.data.isPlanToRelease
         }
     }, [])
+
+    const defaultColDef = {
+        suppressKeyboardEvent: (_) => true,
+    }
 
     return (
         <div id="container">
@@ -159,6 +169,7 @@ export const MyClubNotePage = () => {
                         columnDefs={columnDefs}
                         rowClassRules={rowClassRules}
                         onCellValueChanged={onCellValueChanged}
+                        defaultColDef={defaultColDef}
                     >
                     </AgGridReact>
                 </div>

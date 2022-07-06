@@ -71,6 +71,7 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
                 homeGrownStatus: this.fromJAStringToHomeGrownStatus(attributes[PlayerAttributeKeyNameJA.homeGrownStatus]),
                 isMember: false,
                 isPlanToRelease: false,
+                memo: '',
                 savedAt: savedAt,
             }
         }))

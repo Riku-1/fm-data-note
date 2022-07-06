@@ -44,3 +44,7 @@ body {
 .gray-background {
   background-color: darkgray !important;
 }
+
+.new-line-text {
+  line-height: normal;
+}

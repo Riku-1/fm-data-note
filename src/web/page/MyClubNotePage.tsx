@@ -53,22 +53,30 @@ export const MyClubNotePage = () => {
     }, [selectedDate])
 
     const [columnDefs] = useState([
-        { field: 'id' },
-        { field: 'name' },
+        {
+            field: 'name',
+            resizable: true,
+        },
         {
             field: 'isMember',
             cellRenderer: AgGridCheckBox,
             sortable: true,
+            resizable: true,
+            width: 60,
         },
         {
             field: 'isPlanToRelease',
             cellRenderer: AgGridCheckBox,
             sortable: true,
+            resizable: true,
+            width: 60,
         },
         {
             type: 'numericColumn',
             field: 'age',
             sortable: true,
+            resizable: true,
+            width: 60,
             valueGetter: (params) => {
                 if (params.data == null) {
                     return null
@@ -79,14 +87,20 @@ export const MyClubNotePage = () => {
         {
             field: 'nation',
             sortable: true,
+            resizable: true,
+            width: 80,
         },
         {
             field: 'currentClub',
             sortable: true,
+            resizable: true,
+            width: 100,
         },
         {
             field: 'currentLoanFrom',
             sortable: true,
+            resizable: true,
+            width: 100,
         },
         {
             field: 'homeGrownStatus',
@@ -95,6 +109,8 @@ export const MyClubNotePage = () => {
                 good: params => params.value === HomeGrownStatus.Nation,
             },
             sortable: true,
+            resizable: true,
+            width: 100,
         },
     ])
 

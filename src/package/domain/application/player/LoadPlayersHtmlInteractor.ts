@@ -1,24 +1,31 @@
 import {ILoadPlayersHtmlUseCase} from "../../../usecase/player/ILoadPlayersHtmlUseCase";
-import {Player} from "../../model/player/Player";
 import {inject, injectable} from "inversify";
 import * as fs from "fs";
 import {JSDOM} from "jsdom";
 import {PlayerAttributeKeyNameJA} from "./PlayerAttributeKeyName";
-import {PlayerAttributesHistory} from "../../model/player/PlayerAttributesHistory";
 import {IPlayerRepository} from "../../model/player/IPlayerRepository";
 import {REPOSITORY_TYPES} from "../../../inject_types/diConfig/repisoty_types";
+import {CurrentPlayer} from "../../model/player/CurrentPlayer";
+import {IClubRepository} from "../../model/club/IClubRepository";
+import {getClubFromTrivialName} from "../../model/club/Club";
+import {MyCustomDate} from "../../model/shared/MyCustomDate";
+import {HomeGrownStatus} from "../../model/player/HomeGrownStatus";
+
 
 @injectable()
 export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
     private _repository: IPlayerRepository
+    private _clubRepository: IClubRepository
 
     constructor(
-        @inject(REPOSITORY_TYPES.PlayerRepository) repository
+        @inject(REPOSITORY_TYPES.PlayerRepository) repository,
+        @inject(REPOSITORY_TYPES.ClubRepository) clubRepository,
     ) {
         this._repository = repository
+        this._clubRepository = clubRepository
     }
 
-    async handle(filePath: string): Promise<Player[]> {
+    async handle(filePath: string, savedAt: MyCustomDate): Promise<CurrentPlayer[]> {
         // read file
         const contentStr = fs.readFileSync(filePath, "utf8")
         const document = new JSDOM(contentStr).window.document
@@ -45,20 +52,51 @@ export class LoadPlayersHtmlInteractor implements ILoadPlayersHtmlUseCase {
             }
         })
 
-        return Promise.all(playerAttributesList.map(async (attributes) => {
-            //const player = await this._repository.find(attributes[PlayerAttributeKeyNameJA.uID])
-            //console.log(player)
+        const clubs = await this._clubRepository.findAll()
 
-            const attributesHistory: PlayerAttributesHistory = {
-                affiliatedTeam: attributes[PlayerAttributeKeyNameJA.affiliatedTeam]
-            }
+        return Promise.all(playerAttributesList.map(async (attributes) => {
+            const rawBirthDate = attributes[PlayerAttributeKeyNameJA.birthDate]
+            const clubTrivialName = attributes[PlayerAttributeKeyNameJA.club];
+            const loanFromClubTrivialName = attributes[PlayerAttributeKeyNameJA.onLoanFrom];
 
             return {
                 id: attributes[PlayerAttributeKeyNameJA.uID],
                 name: attributes[PlayerAttributeKeyNameJA.name],
-                country: attributes[PlayerAttributeKeyNameJA.country],
-                attributesHistories: [attributesHistory],
+                nation: attributes[PlayerAttributeKeyNameJA.nation],
+                currentClub: clubTrivialName,
+                currentClubId: getClubFromTrivialName(clubTrivialName, clubs)[0]?.id ?? null,
+                currentLoanFrom: loanFromClubTrivialName,
+                currentLoanFromId: getClubFromTrivialName(loanFromClubTrivialName, clubs)[0]?.id ?? null,
+                birthDate: this.parseToDate(rawBirthDate),
+                homeGrownStatus: this.fromJAStringToHomeGrownStatus(attributes[PlayerAttributeKeyNameJA.homeGrownStatus]),
+                isMember: false,
+                isPlanToRelease: false,
+                memo: '',
+                savedAt: savedAt,
             }
         }))
+    }
+
+    private parseToDate = (dateString: string): MyCustomDate => {
+        const birthDateStr = dateString.match(/\d{4}\/\d{1,2}\/\d{1,2}/) // yyyy-mm-dd or yyyy-m-d
+        const [year, month, day] = birthDateStr[0].split('/')
+
+        return {
+            year: Number(year),
+            month: Number(month),
+            day: Number(day),
+        }
+    }
+
+    private fromJAStringToHomeGrownStatus = (jaString: string): HomeGrownStatus => {
+        if (jaString.indexOf('国内育成') !== -1) {
+            return HomeGrownStatus.Nation
+        }
+
+        if (jaString.indexOf('クラブ内育成') !== -1) {
+            return HomeGrownStatus.Club
+        }
+
+        return HomeGrownStatus.None
     }
 }

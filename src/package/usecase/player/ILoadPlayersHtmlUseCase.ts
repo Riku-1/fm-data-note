@@ -1,5 +1,6 @@
-import {Player} from "../../domain/model/player/Player";
+import {CurrentPlayer} from "../../domain/model/player/CurrentPlayer";
+import {MyCustomDate} from "../../domain/model/shared/MyCustomDate";
 
 export interface ILoadPlayersHtmlUseCase {
-    handle(filePath: string) : Promise<Player[]>
+    handle(filePath: string, savedAt: MyCustomDate) : Promise<CurrentPlayer[]>
 }

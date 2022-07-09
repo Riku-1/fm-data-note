@@ -24,3 +24,27 @@ body {
   display: grid;
   justify-content: center;
 }
+
+/* data grid style */
+.excellent {
+  background-color: green !important;
+  color: white;
+}
+
+.good {
+  background-color: lightgreen  !important;
+  color: white;
+}
+
+.bad {
+  background-color: lightcoral  !important;
+  color: white;
+}
+
+.gray-background {
+  background-color: darkgray !important;
+}
+
+.new-line-text {
+  line-height: normal;
+}
